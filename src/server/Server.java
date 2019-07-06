@@ -50,6 +50,20 @@ public class Server {
         }
     }
 
+    public void directedMsg(String nickname, String message){
+        for (ClientHandler o: clients) {
+            if(o.nick.equals(nickname))
+            o.sendMsg(message);
+        }
+    }
+
+    public boolean reauthorizationCheck(String login, String pass) {
+        for (ClientHandler o: clients) {
+            if(o.nick.equals(AuthService.getNickByLoginAndPass(login, pass))) return true;
+        }
+        return false;
+    }
+
     public void subscribe(ClientHandler clientHandler){
         clients.add(clientHandler);
     }
@@ -57,4 +71,5 @@ public class Server {
     public void unsubscribe(ClientHandler clientHandler){
         clients.remove(clientHandler);
     }
+
 }
